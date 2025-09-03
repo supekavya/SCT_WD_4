@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      width: 400px;
+    }
+    h2 {
+      text-align: center;
+    }
+    input, button {
+      padding: 8px;
+      margin: 5px 0;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background: #f0f0f0;
+      margin: 5px 0;
+      padding: 10px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    li.completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+    .actions button {
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📋 To-Do App</h2>
+    <input type="text" id="taskInput" placeholder="Enter task">
+    <input type="date" id="taskDate">
+    <input type="time" id="taskTime">
+    <button onclick="addTask()">Add</button>
+
+    <ul id="taskList"></ul>
+  </div>
+
+  <script>
+    function addTask() {
+      let taskInput = document.getElementById("taskInput");
+      let taskDate = document.getElementById("taskDate");
+      let taskTime = document.getElementById("taskTime");
+      let taskList = document.getElementById("taskList");
+
+      if (taskInput.value === "") return alert("Enter a task!");
+
+      let li = document.createElement("li");
+      li.innerHTML = `
+        <span>${taskInput.value} (${taskDate.value} ${taskTime.value})</span>
+        <div class="actions">
+          <button onclick="toggleComplete(this)">✔</button>
+          <button onclick="editTask(this)">✎</button>
+          <button onclick="deleteTask(this)">🗑</button>
+        </div>
+      `;
+
+      taskList.appendChild(li);
+      taskInput.value = "";
+      taskDate.value = "";
+      taskTime.value = "";
+    }
+
+    function toggleComplete(button) {
+      let li = button.parentElement.parentElement;
+      li.classList.toggle("completed");
+    }
+
+    function editTask(button) {
+      let li = button.parentElement.parentElement;
+      let span = li.querySelector("span");
+      let newText = prompt("Edit task:", span.innerText);
+      if (newText) span.innerText = newText;
+    }
+
+    function deleteTask(button) {
+      let li = button.parentElement.parentElement;
+      li.remove();
+    }
+  </script>
+</body>
+</html>
